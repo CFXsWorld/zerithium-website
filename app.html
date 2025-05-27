@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zerithium | Decentralized Finance Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1A1A1A',
+                        secondary: '#0A0A0A',
+                        dark: '#FFFFFF',
+                        light: '#F9F9F9',
+                        accent: '#333333',
+                        neutral: '#555555',
+                        'neutral-dark': '#3C3C3C',
+                        'neutral-light': '#E0E0E0',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'custom': '0 4px 12px rgba(0, 0, 0, 0.05)',
+                        'custom-hover': '0 8px 24px rgba(0, 0, 0, 0.1)',
+                    }
+                },
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .bg-gradient-zerithium {
+                background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
+            }
+            .btn-hover-effect {
+                transition: all 0.3s ease;
+            }
+            .btn-hover-effect:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+            }
+            .nav-link {
+                position: relative;
+            }
+            .nav-link::after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 2px;
+                bottom: -4px;
+                left: 0;
+                background-color: #1A1A1A;
+                transition: width 0.3s ease;
+            }
+            .nav-link:hover::after {
+                width: 100%;
+            }
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-15px); }
+                100% { transform: translateY(0px); }
+            }
+            .text-balance {
+                text-wrap: balance;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-inter bg-dark text-neutral antialiased">
+    <!-- 导航栏 -->
+    <header id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-dark/95 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <div class="bg-gradient-zerithium h-10 w-10 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">Z</span>
+                        </div>
+                        <span class="ml-3 text-xl font-bold text-secondary">Zerithium</span>
+                    </a>
+                </div>
+
+                <!-- 桌面导航 -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#products" class="nav-link text-primary hover:text-primary transition-colors">Products</a>
+                    <a href="#protocol" class="nav-link text-primary hover:text-primary transition-colors">Protocol</a>
+                    <a href="#ecosystem"
+                        class="nav-link text-primary hover:text-primary transition-colors">Ecosystem</a>
+                    <a href="#docs" class="nav-link text-primary hover:text-primary transition-colors">Docs</a>
+                    <a href="#governance"
+                        class="nav-link text-primary hover:text-primary transition-colors">Governance</a>
+                </nav>
+
+                <!-- 右侧按钮 -->
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="hidden sm:block text-primary hover:text-primary/80 transition-colors">Blog</a>
+                    <a href="#" class="hidden sm:block text-primary hover:text-primary/80 transition-colors">About</a>
+                    <button id="connect-wallet-btn"
+                        class="bg-gradient-zerithium text-white px-5 py-2 rounded-lg font-medium btn-hover-effect">
+                        Connect Wallet
+                    </button>
+                    <!-- 移动端菜单按钮 -->
+                    <button id="mobile-menu-btn" class="md:hidden text-primary">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 移动端导航菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark/98 backdrop-blur-lg border-t border-neutral-light">
+            <div class="container mx-auto px-4 py-4 space-y-3">
+                <a href="#products" class="block text-primary hover:text-primary/80 transition-colors py-2">Products</a>
+                <a href="#protocol" class="block text-primary hover:text-primary/80 transition-colors py-2">Protocol</a>
+                <a href="#ecosystem"
+                    class="block text-primary hover:text-primary/80 transition-colors py-2">Ecosystem</a>
+                <a href="#docs" class="block text-primary hover:text-primary/80 transition-colors py-2">Docs</a>
+                <a href="#governance"
+                    class="block text-primary hover:text-primary/80 transition-colors py-2">Governance</a>
+                <a href="#" class="block text-primary hover:text-primary/80 transition-colors py-2">Blog</a>
+                <a href="#" class="block text-primary hover:text-primary/80 transition-colors py-2">About</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 bg-dark relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full">
+            <div
+                class="absolute inset-0 bg-[url('https://picsum.photos/1920/1080?random=1')] opacity-5 bg-cover bg-center">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-b from-dark/80 to-dark"></div>
+        </div>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight mb-6">
+                        The Future of
+                        <span class="text-gradient">Decentralized Finance</span>
+                    </h1>
+                    <p class="text-[clamp(1rem,2vw,1.25rem)] text-neutral mb-8 max-w-xl text-balance">
+                        Zerithium is an open-source and non-custodial liquidity protocol
+                        for earning interest on deposits and borrowing assets with zero friction.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#"
+                            class="bg-gradient-zerithium text-white px-8 py-3 rounded-lg font-medium text-center btn-hover-effect">
+                            Start Earning
+                        </a>
+                        <a href="#"
+                            class="bg-transparent text-primary border border-primary/20 px-8 py-3 rounded-lg font-medium text-center hover:bg-primary/5 transition-colors">
+                            Explore Protocol
+                        </a>
+                    </div>
+                    <div class="mt-10 flex flex-wrap gap-6">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-circle-dollar-to-slot text-primary mr-2"></i>
+                            <div>
+                                <span class="text-primary font-bold text-lg">$42B</span>
+                                <span class="text-neutral-light ml-1 block text-sm">Total Value Locked</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-users text-primary mr-2"></i>
+                            <div>
+                                <span class="text-primary font-bold text-lg">3.5M+</span>
+                                <span class="text-neutral-light ml-1 block text-sm">Users</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-globe text-primary mr-2"></i>
+                            <div>
+                                <span class="text-primary font-bold text-lg">150+</span>
+                                <span class="text-neutral-light ml-1 block text-sm">Countries</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <div
+                        class="bg-dark rounded-2xl p-6 border border-neutral-light/50 shadow-custom card-hover animate-float">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-semibold text-primary">Your Dashboard</h3>
+                            <div class="flex space-x-2">
+                                <button class="bg-primary/10 px-3 py-1 rounded-md text-sm text-primary">Assets</button>
+                                <button
+                                    class="bg-gradient-zerithium px-3 py-1 rounded-md text-sm text-white">Loans</button>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-light rounded-xl p-4 border border-neutral-light/50">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <img src="https://picsum.photos/40/40?random=1" alt="BTC"
+                                            class="w-10 h-10 rounded-full mr-3">
+                                        <div>
+                                            <h4 class="font-medium text-primary">Bitcoin</h4>
+                                            <p class="text-neutral-light text-sm">0.423 BTC</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-medium text-primary">$18,452.30</p>
+                                        <p class="text-green-500 text-sm">+4.2%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-light rounded-xl p-4 border border-neutral-light/50">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <img src="https://picsum.photos/40/40?random=2" alt="ETH"
+                                            class="w-10 h-10 rounded-full mr-3">
+                                        <div>
+                                            <h4 class="font-medium text-primary">Ethereum</h4>
+                                            <p class="text-neutral-light text-sm">3.652 ETH</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-medium text-primary">$6,458.72</p>
+                                        <p class="text-red-500 text-sm">-1.8%</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-light rounded-xl p-4 border border-neutral-light/50">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <img src="https://picsum.photos/40/40?random=3" alt="ZLT"
+                                            class="w-10 h-10 rounded-full mr-3">
+                                        <div>
+                                            <h4 class="font-medium text-primary">Zerithium Token</h4>
+                                            <p class="text-neutral-light text-sm">1,245.60 ZLT</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-medium text-primary">$1,245.60</p>
+                                        <p class="text-green-500 text-sm">+2.1%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 pt-4 border-t border-neutral-light/50">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-neutral-light text-sm">Total Value</p>
+                                    <p class="text-2xl font-bold text-primary">$26,156.62</p>
+                                </div>
+                                <button
+                                    class="bg-primary/10 text-primary px-4 py-2 rounded-lg font-medium hover:bg-primary/20 transition-colors">
+                                    Deposit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20 bg-light">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold mb-4 text-primary">Zerithium Products</h2>
+                <p class="text-neutral max-w-2xl mx-auto text-balance">
+                    Discover our suite of decentralized finance products designed to maximize your earnings.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Product Card 1 -->
+                <div class="bg-dark rounded-2xl p-8 border border-neutral-light/50 shadow-custom card-hover">
+                    <div class="bg-primary/10 w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-money-bill-transfer text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-primary">Lending Protocol</h3>
+                    <p class="text-neutral mb-6 text-balance">
+                        Earn interest on your crypto assets or borrow against your collateral with variable or stable
+                        rates.
+                    </p>
+                    <a href="#" class="text-primary hover:text-primary/80 font-medium flex items-center">
+                        Learn more
+                        <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="bg-dark rounded-2xl p-8 border border-neutral-light/50 shadow-custom card-hover">
+                    <div class="bg-primary/10 w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-shield-halved text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-primary">Staking Platform</h3>
+                    <p class="text-neutral mb-6 text-balance">
+                        Stake your tokens to secure the protocol and earn staking rewards while providing protection
+                        against potential risks.
+                    </p>
+                    <a href="#" class="text-primary hover:text-primary/80 font-medium flex items-center">
+                        Learn more
+                        <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="bg-dark rounded-2xl p-8 border border-neutral-light/50 shadow-custom card-hover">
+                    <div class="bg-primary/10 w-14 h-14 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-chart-line text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-primary">Zerithium Swap</h3>
+                    <p class="text-neutral mb-6 text-balance">
+                        Instantly swap between different cryptocurrencies with low fees and high liquidity.
+                    </p>
+                    <a href="#" class="text-primary hover:text-primary/80 font-medium flex items-center">
+                        Learn more
+                        <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Protocol Section -->
+    <section id="protocol" class="py-20 bg-dark">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0 md:pr-12">
+                    <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold mb-6 text-primary">How Zerithium Protocol Works
+                    </h2>
+                    <p class="text-neutral mb-8 text-balance">
+                        Zerithium is a decentralized non-custodial liquidity protocol where users can participate as
+                        depositors or borrowers.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="flex">
+                            <div
+                                class="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center mr-4 shrink-0">
+                                <span class="text-primary font-bold text-xl">1</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-primary">Deposit Assets</h3>
+                                <p class="text-neutral text-balance">
+                                    Supply assets to the protocol's liquidity pools and earn passive income through
+                                    interest generated by borrowers.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div
+                                class="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center mr-4 shrink-0">
+                                <span class="text-primary font-bold text-xl">2</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-primary">Earn Interest</h3>
+                                <p class="text-neutral text-balance">
+                                    Receive zTokens that represent your share of the liquidity pool and accrue interest
+                                    in real-time.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div
+                                class="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center mr-4 shrink-0">
+                                <span class="text-primary font-bold text-xl">3</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-primary">Borrow Assets</h3>
+                                <p class="text-neutral text-balance">
+                                    Use your deposited assets as collateral to borrow other assets with either variable
+                                    or stable interest rates.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div
+                                class="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center mr-4 shrink-0">
+                                <span class="text-primary font-bold text-xl">4</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2 text-primary">Manage Risk</h3>
+                                <p class="text-neutral text-balance">
+                                    Monitor your health factor to ensure your collateral remains sufficient or risk
+                                    liquidation.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="bg-light rounded-2xl p-8 border border-neutral-light/50 shadow-custom">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-semibold text-primary">Supported Assets</h3>
+                            <div class="relative">
+                                <input type="text" placeholder="Search assets"
+                                    class="bg-dark border border-neutral-light/50 rounded-lg px-4 py-2 pr-10 w-64 focus:outline-none focus:ring-2 focus:ring-primary/30">
+                                <i
+                                    class="fa-solid fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-light"></i>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr class="border-b border-neutral-light/50">
+                                        <th class="py-3 text-left font-semibold text-primary">Asset</th>
+                                        <th class="py-3 text-left font-semibold text-primary">Deposit APY</th>
+                                        <th class="py-3 text-left font-semibold text-primary">Variable Borrow</th>
+                                        <th class="py-3 text-left font-semibold text-primary">Stable Borrow</th>
+                                        <th class="py-3 text-left font-semibold text-primary">Liquidation Threshold</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-neutral-light/50 hover:bg-primary/5 transition-colors">
+                                        <td class="py-4">
+                                            <div class="flex items-center">
+                                                <img src="https://picsum.photos/32/32?random=4" alt="BTC"
+                                                    class="w-8 h-8 rounded-full mr-3">
+                                                <span class="font-medium text-primary">Bitcoin</span>
+                                                <span
+                                                    class="ml-2 bg-primary/10 text-primary text-xs px-2 py-1 rounded">BTC</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-green-500">4.25%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-yellow-500">3.12%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-red-500">5.67%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-primary">80.0%</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-neutral-light/50 hover:bg-primary/5 transition-colors">
+                                        <td class="py-4">
+                                            <div class="flex items-center">
+                                                <img src="https://picsum.photos/32/32?random=5" alt="ETH"
+                                                    class="w-8 h-8 rounded-full mr-3">
+                                                <span class="font-medium text-primary">Ethereum</span>
+                                                <span
+                                                    class="ml-2 bg-primary/10 text-primary text-xs px-2 py-1 rounded">ETH</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-green-500">3.78%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-yellow-500">2.89%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-red-500">4.92%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-primary">82.5%</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-neutral-light/50 hover:bg-primary/5 transition-colors">
+                                        <td class="py-4">
+                                            <div class="flex items-center">
+                                                <img src="https://picsum.photos/32/32?random=6" alt="USDC"
+                                                    class="w-8 h-8 rounded-full mr-3">
+                                                <span class="font-medium text-primary">USD Coin</span>
+                                                <span
+                                                    class="ml-2 bg-primary/10 text-primary text-xs px-2 py-1 rounded">USDC</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-green-500">4.89%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-yellow-500">3.75%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-red-500">6.21%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-primary">85.0%</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-primary/5 transition-colors">
+                                        <td class="py-4">
+                                            <div class="flex items-center">
+                                                <img src="https://picsum.photos/32/32?random=7" alt="ZLT"
+                                                    class="w-8 h-8 rounded-full mr-3">
+                                                <span class="font-medium text-primary">Zerithium Token</span>
+                                                <span
+                                                    class="ml-2 bg-primary/10 text-primary text-xs px-2 py-1 rounded">ZLT</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-green-500">6.32%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-yellow-500">5.18%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-red-500">7.84%</span>
+                                        </td>
+                                        <td class="py-4">
+                                            <span class="text-primary">75.0%</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <button
+                                class="bg-gradient-zerithium text-white px-6 py-3 rounded-lg font-medium btn-hover-effect">
+                                View All Assets
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 其余章节保持类似的颜色调整逻辑 -->
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-light">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-primary/5 rounded-3xl p-12 border border-primary/10 relative overflow-hidden">
+                <div class="absolute -right-20 -top-20 w-80 h-80 bg-primary/5 rounded-full filter blur-3xl"></div>
+                <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-primary/5 rounded-full filter blur-3xl"></div>
+
+                <div class="relative z-10 text-center max-w-3xl mx-auto">
+                    <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold mb-6 text-primary">Join the Zerithium
+                        Revolution</h2>
+                    <p class="text-neutral text-lg mb-10 text-balance">
+                        Start earning interest on your crypto assets or borrow funds with the leading DeFi protocol.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="#"
+                            class="bg-gradient-zerithium text-white px-8 py-4 rounded-lg font-medium text-lg btn-hover-effect">
+                            Get Started Now
+                        </a>
+                        <a href="#"
+                            class="bg-transparent text-primary border-2 border-primary/20 px-8 py-4 rounded-lg font-medium text-lg hover:bg-primary/5 transition-colors">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-light pt-16 pb-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="bg-gradient-zerithium h-10 w-10 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">Z</span>
+                        </div>
+                        <span class="ml-3 text-xl font-bold text-primary">Zerithium</span>
+                    </div>
+                    <p class="text-neutral mb-6 text-balance">
+                        The future of decentralized finance. Open, permissionless, and transparent.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-neutral hover:text-primary transition-colors">
+                            <i class="fa-brands fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-neutral hover:text-primary transition-colors">
+                            <i class="fa-brands fa-telegram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-neutral hover:text-primary transition-colors">
+                            <i class="fa-brands fa-discord text-xl"></i>
+                        </a>
+                        <a href="#" class="text-neutral hover:text-primary transition-colors">
+                            <i class="fa-brands fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-neutral hover:text-primary transition-colors">
+                            <i class="fa-brands fa-medium text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-primary">Products</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">Lending Protocol</a>
+                        </li>
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">Zerithium Swap</a>
+                        </li>
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">Zerithium Bridge</a>
+                        </li>
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">Staking Platform</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-primary">Resources</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">Documentation</a></li>
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">Smart Contracts</a>
+                        </li>
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">Analytics</a></li>
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">Bug Bounty</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-primary">Company</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">About</a></li>
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">Careers</a></li>
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-neutral hover:text-primary transition-colors">Press</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-neutral-light/50 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-neutral mb-4 md:mb-0">© 2025 Zerithium. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-neutral hover:text-primary transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-neutral hover:text-primary transition-colors">Terms of Service</a>
+                    <a href="#" class="text-neutral hover:text-primary transition-colors">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 导航栏滚动效果
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+                navbar.classList.remove('shadow-sm');
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.classList.add('shadow-sm');
+            }
+        });
+
+        // 移动端菜单切换
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenuBtn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
+            } else {
+                mobileMenuBtn.innerHTML = '<i class="fa-solid fa-xmark text-xl"></i>';
+            }
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
+                    // 关闭移动菜单
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuBtn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
+                    }
+                }
+            });
+        });
+
+        // 连接钱包按钮效果
+        const connectWalletBtn = document.getElementById('connect-wallet-btn');
+        connectWalletBtn.addEventListener('click', () => {
+            alert('Wallet connection functionality would be implemented here.');
+        });
+    </script>
+</body>
+
+</html>
